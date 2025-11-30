@@ -167,25 +167,83 @@
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label for="serviceType" class="form-label">Tipo de Serviço:</label>
-                    <select class="form-select" id="serviceType" required>
-                        <option value="" disabled selected>Selecione um serviço...</option>
-                        <option value="consulta">Consulta/Avaliação</option>
-                        <option value="suporte">Suporte Técnico</option>
-                        <option value="financeiro">Atendimento Financeiro</option>
-                        <option value="entrega">Retirada/Entrega</option>
-                    </select>
-                </div>
+                
                 
                 <div class="mb-4 form-floating">
                     <textarea class="form-control" placeholder="Observações..." id="observations" style="height: 100px"></textarea>
                     <label for="observations">Observações (opcional)</label>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-lg w-100" disabled>
-                    Agendar (Aguardando Integração)
-                </button>
+               <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+  .btn-agendar {
+    display: block;              /* Centraliza */
+    margin: 20px auto;
+    padding: 12px 28px;
+    background-color: #007bff;   /* Azul */
+    color: white;                /* Texto branco */
+    border: none;
+    border-radius: 8px;          /* Bordas curvadas */
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s ease;
+  }
+
+  .btn-agendar:hover {
+    background-color: #0056b3;   /* Azul mais escuro */
+    transform: scale(1.03);
+  }
+</style>
+
+<button class="btn-agendar" onclick="concluirAgendamento()">
+  Agendar
+</button>
+
+
+<script>
+function concluirAgendamento() {
+    const nome = document.getElementById("clientName").value;
+    const data = document.getElementById("appointmentDate").value;
+    const hora = document.getElementById("appointmentTime").value;
+    const obs  = document.getElementById("observations").value;
+
+    if (!nome || !data || !hora) {
+        Swal.fire({
+            icon: "error",
+            title: "Campos obrigatórios!",
+            text: "Preencha nome, data e hora."
+        });
+        return;
+    }
+
+    const novoAgendamento = {
+        titulo: nome,
+        descricao: obs || "Sem descrição",
+        marcado: new Date().toLocaleDateString("pt-BR"),
+        agendadoPara: `${data.split("-").reverse().join("/")}, ${hora}`,
+        status: "Pendente"
+    };
+
+    // Busca lista atual (se existir)
+    let lista = JSON.parse(localStorage.getItem("agendamentos")) || [];
+    lista.push(novoAgendamento);
+
+    // Salva
+    localStorage.setItem("agendamentos", JSON.stringify(lista));
+
+    Swal.fire({
+        icon: 'success',
+        title: 'Agendamento concluído!',
+        text: 'Seu agendamento foi salvo com sucesso.',
+        confirmButtonText: 'OK'
+    }).then(() => {
+        window.location.href = "Agendamento2.html";
+    });
+}
+</script>
+
             </form>
         </div>
 
@@ -198,7 +256,7 @@
         document.getElementById('appointmentForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Impede o envio real do formulário
             // Neste ponto, a lógica real de back-end enviaria os dados
-            alert('A funcionalidade de agendamento está em desenvolvimento. Dados capturados com sucesso, mas não salvos.');
+            
         });
     </script>
 </body>

@@ -160,14 +160,16 @@
         }
         
         /* =================================
-           5. Estilos de Acessibilidade (Funcionalidade 14)
-           ================================= */
-        #accessibility-controls {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            z-index: 1000;
+    5. Estilos de Acessibilidade (Funcionalidade 14)
+    ================================= */
+#accessibility-controls
+         {
+    /* position: absolute; top: 10px; left: 10px; -- Removidos para usar o Flexbox */
+    z-index: 1000;
+    display: flex;
+    gap: 10px;
         }
+        
 
         /* Fonte Grande */
         body.fonte-grande { 
@@ -424,24 +426,26 @@
     </style>
 </head>
 <body>
-    <div id="accessibility-controls">
-        <button class="btn btn-sm btn-dark" onclick="toggleAcessibility('contraste')">Alto Contraste</button>
-        <button class="btn btn-sm btn-dark" onclick="toggleAcessibility('fonte')">A+</button>
-    </div>
-    
-    <header class="bg-primary text-white text-center py-3">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-8 text-start">
-                    <h1>Painel de Atendimento</h1>
+   <header class="bg-primary text-white text-center py-3">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            
+            <div class="col-6 col-md-8 text-start">
+                <h1>Painel de Atendimento</h1>
+            </div>
+            
+            <div class="col-6 col-md-4 text-end d-flex align-items-center justify-content-end">
+                
+                <div id="accessibility-controls" class="d-flex me-3">
+                    <button class="btn btn-sm btn-light p-1 me-2" title="Alternar Alto Contraste" onclick="toggleAcessibility('contraste')">&#9788;</button>
+                    <button class="btn btn-sm btn-light p-1" title="Aumentar Fonte" onclick="toggleAcessibility('fonte')">A+</button>
                 </div>
-                <div class="col-4 text-end">
-                    <div id="relogio" class="fs-4 fw-bold">---</div> 
-                </div>
+                
+                <div id="relogio" class="fs-4 fw-bold">---</div> 
             </div>
         </div>
-    </header>
-
+    </div>
+</header>
     <div class="container-fluid flex-grow-1">
         <div class="row">
             
@@ -475,20 +479,16 @@
                 </div>
             </div>
             
-            <div class="col-12 col-md-4">
-                <div class="card mt-3 h-100">
-                    <div class="card-header bg-secondary text-white">
-                        <h2>Mídia</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="owl-carousel" id="videoCarousel">
-                            <div class="item"><video src="video1.mp4" autoplay loop muted></video></div>
-                            <div class="item"><video src="video2.mp4" autoplay loop muted></video></div>
-                            <div class="item"><video src="video3.mp4" autoplay loop muted></video></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="col-12 col-md-4 mt-3">
+    <div class="card h-100" style="overflow: hidden;">
+        <div class="card-body p-0 d-flex align-items-center bg-white">
+            <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                <source src="video/video_380.webm" type="video/webm">
+                Seu navegador não suporta a tag de vídeo.
+            </video>
+        </div>
+    </div>
+</div>
 
             <div class="col-12 col-md-4">
                 <div class="card mt-3 h-100">
